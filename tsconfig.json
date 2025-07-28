@@ -6,6 +6,7 @@
       "src/*": ["./src/*"],
       "api/*": ["./src/api/*"],
       "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
       "modules/*": ["./src/modules/*"],
       "types/*": ["./src/types/*"],
       "store/*": ["./src/store/*"],

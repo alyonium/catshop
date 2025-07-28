@@ -1,13 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import shopReducer from 'modules/shop/shopSlice';
 import { api } from 'api/apiSlice.ts';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import { cartSlice } from 'modules/shop/components/cart/cartSlice';
+import cartReducer from 'store/cart/cartSlice.ts';
 
 export const store = configureStore({
   reducer: {
-    records: shopReducer,
-    cart: cartSlice.reducer,
+    cart: cartReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -16,4 +13,3 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-setupListeners(store.dispatch);

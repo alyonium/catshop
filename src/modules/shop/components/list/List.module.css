@@ -1,0 +1,13 @@
+.displayWrapper {
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.messagesWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}

@@ -1,19 +1,21 @@
-import type { Cat } from 'types/types.ts';
 import {
+  Button,
   Card as MuiCard,
+  CardActions,
   CardContent,
   CardMedia,
   Typography,
-  CardActions,
-  Button,
 } from '@mui/material';
 import catImage from 'assets/cat.webp';
+import { addItem } from 'store/cart/cartSlice.ts';
+import type { CardProps } from 'components/ProductCard/types.ts';
+import { useAppDispatch, useAppSelector } from 'store/hooks.ts';
+import { selectIsItemInCart } from 'store/cart/cartSelectors.ts';
 
-type CardProps = {
-  cat: Cat;
-};
+const LargeCard = ({ cat }: CardProps) => {
+  const dispatch = useAppDispatch();
+  const isItemInCart = useAppSelector(selectIsItemInCart(cat.id));
 
-const Card = ({ cat }: CardProps) => {
   return (
     <MuiCard sx={{ maxWidth: 300 }}>
       {cat.image ? (
@@ -30,16 +32,22 @@ const Card = ({ cat }: CardProps) => {
         <Typography gutterBottom variant="h5" component="div">
           {cat.name}
         </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <Typography variant="body2" className="text-overflow">
           {cat.description}
         </Typography>
       </CardContent>
 
       <CardActions>
-        <Button size="small">Add</Button>
+        <Button
+          size="small"
+          onClick={() => dispatch(addItem(cat))}
+          disabled={isItemInCart}
+        >
+          Add to cart
+        </Button>
       </CardActions>
     </MuiCard>
   );
 };
 
-export default Card;
+export default LargeCard;

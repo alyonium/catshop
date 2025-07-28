@@ -1,18 +1,23 @@
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useGetRecordsQuery } from 'api/apiSlice.ts';
-import type { Cat } from 'types/types.ts';
-import Card from 'modules/shop/components/list/components/card/Card.tsx';
+import { useGetRecordsQuery } from 'api/apiSlice';
+import type { Cat } from 'types/types';
 import { useState, useEffect } from 'react';
+import Grid from '@mui/material/Grid';
+import { Typography, CircularProgress } from '@mui/material';
+import LargeCard from 'components/ProductCard/LargeCard';
+import styles from './List.module.css';
+import {
+  ITEMS_BY_PAGE_LIMIT,
+  TOTAL_PAGES_AMOUNT,
+} from 'modules/shop/components/list/consts';
 
 const List = () => {
-  const limit = 10;
-  const pagesLimit = 6;
   const [items, setItems] = useState<Cat[]>([]);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
+  const [page, setPage] = useState<number>(0);
+  const [hasMore, setHasMore] = useState<boolean>(false);
 
   const { data, isLoading, isError, isFetching } = useGetRecordsQuery({
-    limit,
+    limit: ITEMS_BY_PAGE_LIMIT,
     page,
   });
 
@@ -20,11 +25,9 @@ const List = () => {
     if (data && data.length) {
       setItems((prev) => [...prev, ...data]);
 
-      if (page < pagesLimit) {
-        console.log(page, '1');
+      if (page < TOTAL_PAGES_AMOUNT) {
         setHasMore(true);
       } else {
-        console.log(page, '2');
         setHasMore(false);
       }
     }
@@ -37,28 +40,60 @@ const List = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Grid size={12} container spacing={3} className={styles.displayWrapper}>
+        <CircularProgress color="primary" />
+      </Grid>
+    );
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return (
+      <Grid size={12} container spacing={3} className={styles.displayWrapper}>
+        <Typography variant="body1">Error</Typography>
+      </Grid>
+    );
   }
 
   return (
     <InfiniteScroll
-      dataLength={items.length} //This is important field to render the next data
+      dataLength={items.length}
       next={fetchData}
-      hasMore
-      loader={<h4>Loading...</h4>}
+      hasMore={hasMore}
+      height="80vh"
+      loader={
+        <Grid
+          container
+          size={12}
+          spacing={3}
+          className={styles.messagesWrapper}
+        >
+          <CircularProgress color="primary" />
+        </Grid>
+      }
       endMessage={
-        <p style={{ textAlign: 'center' }}>
-          <b>You have seen it all</b>
-        </p>
+        <Grid
+          container
+          size={12}
+          spacing={3}
+          className={styles.messagesWrapper}
+        >
+          <Typography variant="body1">All cats shown</Typography>
+        </Grid>
       }
     >
-      {items.map((record: Cat) => (
-        <Card key={record.id} cat={record} />
-      ))}
+      <Grid container size={12} spacing={3}>
+        {items.map((record: Cat) => (
+          <Grid
+            key={record.id}
+            size={{ lg: 3, md: 4, sm: 6, xs: 12 }}
+            container
+            className="display-center"
+          >
+            <LargeCard cat={record} />
+          </Grid>
+        ))}
+      </Grid>
     </InfiniteScroll>
   );
 };
