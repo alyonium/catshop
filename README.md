@@ -4,7 +4,7 @@
 
 ## Deploy:
 
-[View deploy 👆🏻](https://alyonium.github.io/chatik)
+[View deploy 👆🏻](https://alyonium.github.io/catshop)
 
 ### Stack:
 
