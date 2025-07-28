@@ -31,7 +31,7 @@ const List = () => {
         setHasMore(false);
       }
     }
-  }, [data]);
+  }, [data, page]);
 
   const fetchData = () => {
     if (!isFetching && hasMore) {

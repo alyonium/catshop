@@ -1,12 +1,15 @@
 # Catshop 🐈
+
 [The Cat API](https://thecatapi.com/)-based app
-## Deploy: 
+
+## Deploy:
 
 [View deploy 👆🏻](https://alyonium.github.io/chatik)
 
 ### Stack:
 
 #### Front
+
 - React (Vite)
 - TypeScript
 - MaterialUI
