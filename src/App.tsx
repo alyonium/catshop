@@ -1,5 +1,6 @@
 import './App.css';
-import { store } from './store/store.ts';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store/store';
 import { Provider } from 'react-redux';
 import { StrictMode } from 'react';
 import Shop from 'modules/shop/Shop';
@@ -17,9 +18,11 @@ function App() {
   return (
     <StrictMode>
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <Shop />
-        </ThemeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            <Shop />
+          </ThemeProvider>
+        </PersistGate>
       </Provider>
     </StrictMode>
   );
