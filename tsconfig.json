@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowImportingTsExtensions": false,
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["./src/*"],
+      "api/*": ["./src/api/*"],
+      "assets/*": ["./src/assets/*"],
+      "modules/*": ["./src/modules/*"],
+      "types/*": ["./src/types/*"],
+      "store/*": ["./src/store/*"],
+    }
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
