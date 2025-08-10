@@ -7,10 +7,10 @@ import {
   Typography,
 } from '@mui/material';
 import catImage from 'assets/cat.webp';
-import { addItem } from 'store/cart/cartSlice.ts';
+import { addItem } from 'store/Cart/cartSlice.ts';
 import type { CardProps } from 'components/ProductCard/types.ts';
 import { useAppDispatch, useAppSelector } from 'store/hooks.ts';
-import { selectIsItemInCart } from 'store/cart/cartSelectors.ts';
+import { selectIsItemInCart } from 'store/Cart/cartSelectors.ts';
 
 const LargeCard = ({ cat }: CardProps) => {
   const dispatch = useAppDispatch();
@@ -42,6 +42,7 @@ const LargeCard = ({ cat }: CardProps) => {
           size="small"
           onClick={() => dispatch(addItem(cat))}
           disabled={isItemInCart}
+          data-testid="add-to-cart-button"
         >
           Add to cart
         </Button>

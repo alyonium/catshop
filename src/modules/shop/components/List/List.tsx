@@ -9,7 +9,7 @@ import styles from './List.module.css';
 import {
   ITEMS_BY_PAGE_LIMIT,
   TOTAL_PAGES_AMOUNT,
-} from 'modules/shop/components/list/consts';
+} from 'modules/shop/components/List/consts';
 
 const List = () => {
   const [items, setItems] = useState<Cat[]>([]);
@@ -41,7 +41,13 @@ const List = () => {
 
   if (isLoading) {
     return (
-      <Grid size={12} container spacing={3} className={styles.displayWrapper}>
+      <Grid
+        size={12}
+        container
+        spacing={3}
+        className={styles.displayWrapper}
+        data-testid="list-loading"
+      >
         <CircularProgress color="primary" />
       </Grid>
     );
@@ -49,7 +55,13 @@ const List = () => {
 
   if (isError) {
     return (
-      <Grid size={12} container spacing={3} className={styles.displayWrapper}>
+      <Grid
+        size={12}
+        container
+        spacing={3}
+        className={styles.displayWrapper}
+        data-testid="list-error"
+      >
         <Typography variant="body1">Error</Typography>
       </Grid>
     );
@@ -89,6 +101,7 @@ const List = () => {
             size={{ lg: 3, md: 4, sm: 6, xs: 12 }}
             container
             className="display-center"
+            data-testid="large-card"
           >
             <LargeCard cat={record} />
           </Grid>

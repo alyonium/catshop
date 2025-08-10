@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import catImage from 'assets/cat.webp';
-import { removeItem } from 'store/cart/cartSlice.ts';
+import { removeItem } from 'store/Cart/cartSlice.ts';
 import ClearIcon from '@mui/icons-material/Clear';
 import type { CardProps } from 'components/ProductCard/types.ts';
 import { useAppDispatch } from 'store/hooks.ts';

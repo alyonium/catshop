@@ -1,11 +1,11 @@
 import { useAppSelector } from 'store/hooks.ts';
-import List from 'modules/shop/components/list/List.tsx';
+import List from 'modules/shop/components/List/List.tsx';
 import { IconButton, Badge, Typography } from '@mui/material';
 import { useState } from 'react';
-import Cart from 'modules/shop/components/cart/Cart.tsx';
+import Cart from 'modules/shop/components/Cart/Cart.tsx';
 import Grid from '@mui/material/Grid';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { selectCartItemsCount } from 'store/cart/cartSelectors.ts';
+import { selectCartItemsCount } from 'store/Cart/cartSelectors.ts';
 
 const Shop = () => {
   const [open, setOpen] = useState(false);
@@ -25,6 +25,7 @@ const Shop = () => {
         <IconButton
           onClick={toggleDrawer(true)}
           style={{ position: 'absolute', right: '30px', top: '20px' }}
+          data-testid="cart-button"
         >
           <ShoppingCartIcon fontSize="medium" />
           <Badge

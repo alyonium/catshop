@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from 'api/apiSlice.ts';
-import cartReducer from 'store/cart/cartSlice';
+import cartReducer from 'store/Cart/cartSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import { persistConfig } from './persistConfig';
 import { combineReducers } from '@reduxjs/toolkit';

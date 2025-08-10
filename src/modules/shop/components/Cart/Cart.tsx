@@ -3,10 +3,10 @@ import SmallCard from 'components/ProductCard/SmallCard.tsx';
 import {
   selectCartItems,
   selectCartItemsCount,
-} from 'store/cart/cartSelectors.ts';
+} from 'store/Cart/cartSelectors.ts';
 import { useAppDispatch, useAppSelector } from 'store/hooks.ts';
 import styles from './Cart.module.css';
-import { clearCart } from 'store/cart/cartSlice.ts';
+import { clearCart } from 'store/Cart/cartSlice.ts';
 
 type CartProps = {
   open: boolean;
@@ -19,7 +19,12 @@ const Cart = ({ open, onClose }: CartProps) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Drawer open={open} anchor="right" onClose={onClose}>
+    <Drawer
+      open={open}
+      anchor="right"
+      onClose={onClose}
+      data-testid="cart-drawer"
+    >
       <Stack spacing={3} className={styles.wrapper}>
         <Typography variant="h5" component="h3" gutterBottom>
           Cart
