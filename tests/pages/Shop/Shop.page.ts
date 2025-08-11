@@ -6,7 +6,7 @@ export class ShopPage {
   readonly largeCard: Locator;
   readonly cartDrawer: Locator;
   readonly cartButton: Locator;
-  readonly addToCartButton: Locator;
+  readonly addToCartButtons: Locator;
   readonly initialLoading: Locator;
   readonly infiniteLoading: Locator;
   readonly error: Locator;
@@ -19,15 +19,11 @@ export class ShopPage {
     this.largeCard = page.getByTestId('large-card');
     this.cartDrawer = page.getByTestId('cart-drawer');
     this.cartButton = page.getByTestId('cart-button');
-    this.addToCartButton = page.getByTestId('add-to-cart-button');
+    this.addToCartButtons = page.getByRole('button', { name: /add to cart/i });
     this.initialLoading = page.getByTestId('list-initial-loading');
     this.infiniteLoading = page.getByTestId('list-infinite-loading');
     this.infiniteScroll = page.getByTestId('list').locator('..');
     this.error = page.getByTestId('list-error');
-  }
-
-  async getAllShownMessage() {
-    return this.page.waitForSelector('[data-testid="all-cats-shown"]');
   }
 
   async navigate() {
@@ -59,7 +55,7 @@ export class ShopPage {
   }
 
   async clickAddToCartButton() {
-    await this.addToCartButton.first().click();
+    await this.addToCartButtons.first().click();
   }
 
   async scrollList() {

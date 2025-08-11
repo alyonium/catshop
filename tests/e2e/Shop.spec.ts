@@ -1,10 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { ShopPage } from 'tests/pages/Shop/Shop.page';
 import { Cat } from 'src/types/types';
-import {
-  ITEMS_BY_PAGE_LIMIT,
-  TOTAL_PAGES_AMOUNT,
-} from 'src/modules/shop/components/List/consts';
 
 const mockCardDataPage: Cat[] = [
   {
@@ -110,8 +106,8 @@ test.describe('shop page', () => {
   };
 
   test('should render the list after fetching', async ({ page }) => {
-    await initPage({ page });
     await mockGoodRequest({ page });
+    await initPage({ page });
 
     await shopPage.initialListLoading();
     await shopPage.toBeVisibleAfterListFetched();
@@ -132,15 +128,44 @@ test.describe('shop page', () => {
   });
 
   test('should add item to cart', async ({ page }) => {
+    await mockGoodRequest({ page });
     await initPage({ page });
+    await shopPage.initialListLoading();
 
     await shopPage.clickAddToCartButton();
     const cartDrawer = await shopPage.clickCartButton();
     await expect(cartDrawer.cartText).toHaveText(/You selected 1 cats/);
   });
 
-  test('should add and remove item from cart', async ({ page }) => {
+  test('should add item to cart once', async ({ page }) => {
+    await mockGoodRequest({ page });
     await initPage({ page });
+    await shopPage.initialListLoading();
+
+    await shopPage.clickAddToCartButton();
+    const cartDrawer = await shopPage.clickCartButton();
+    await expect(cartDrawer.cartText).toHaveText(/You selected 1 cats/);
+    await cartDrawer.close();
+    await expect(shopPage.addToCartButtons.first()).toBeDisabled();
+  });
+
+  test('should add multiple items to cart', async ({ page }) => {
+    await mockGoodRequest({ page });
+    await initPage({ page });
+    await shopPage.initialListLoading();
+
+    await shopPage.addToCartButtons.nth(0).click();
+    await shopPage.addToCartButtons.nth(1).click();
+    await shopPage.addToCartButtons.nth(2).click();
+
+    const cartDrawer = await shopPage.clickCartButton();
+    await expect(cartDrawer.cartText).toHaveText(/You selected 3 cats/);
+  });
+
+  test('should add and remove item from cart', async ({ page }) => {
+    await mockGoodRequest({ page });
+    await initPage({ page });
+    await shopPage.initialListLoading();
 
     await shopPage.clickAddToCartButton();
     const cartDrawer = await shopPage.clickCartButton();
@@ -151,9 +176,8 @@ test.describe('shop page', () => {
   });
 
   test('should load list items after scroll', async ({ page }) => {
-    await initPage({ page });
-
     await mockGoodRequest({ page });
+    await initPage({ page });
     await shopPage.initialListLoading();
     await expect(shopPage.largeCard).toHaveCount(10);
 
@@ -163,30 +187,10 @@ test.describe('shop page', () => {
     await expect(shopPage.largeCard).toHaveCount(20);
   });
 
-  // TODO work incorrectly now
-  // test('should show a message when all items loaded', async ({ page }) => {
-  //   await initPage({ page });
-  //   await mockGoodRequest({ page });
-  //   await shopPage.initialListLoading();
-  //   await expect(shopPage.largeCard).toHaveCount(10);
-  //
-  //   for (let i = 2; i <= TOTAL_PAGES_AMOUNT; i++) {
-  //     await mockGoodRequest({ page });
-  //     await shopPage.scrollList();
-  //     await shopPage.infiniteListLoading();
-  //     await expect(shopPage.largeCard).toHaveCount(i * ITEMS_BY_PAGE_LIMIT);
-  //   }
-  //
-  //   await expect(shopPage.largeCard).toHaveCount(60);
-  //
-  //   await shopPage.scrollList();
-  //   await shopPage.scrollList();
-  //   // TODO it doesnt display
-  //   // await shopPage.getAllShownMessage();
-  // });
-
   test('should save selected cats after reload', async ({ page }) => {
+    await mockGoodRequest({ page });
     await initPage({ page });
+    await shopPage.initialListLoading();
 
     await shopPage.clickAddToCartButton();
     let cartDrawer = await shopPage.clickCartButton();
@@ -203,8 +207,8 @@ test.describe('shop page', () => {
       page,
     }) => {
       await mockBadRequest({ page });
-
       await initPage({ page });
+
       await shopPage.initialListLoading();
       await shopPage.toBeVisibleOnError();
     });
