@@ -30,7 +30,7 @@ const Cart = ({ open, onClose }: CartProps) => {
           Cart
         </Typography>
 
-        <Typography variant="body1" gutterBottom>
+        <Typography variant="body1" gutterBottom data-testid="cart-text">
           {selectedItemsCount > 0 ? (
             <>You selected {selectedItemsCount} cats:</>
           ) : (

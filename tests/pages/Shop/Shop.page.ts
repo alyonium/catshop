@@ -2,30 +2,45 @@ import { Page, Locator, expect } from '@playwright/test';
 
 export class ShopPage {
   readonly page: Page;
+  readonly list: Locator;
   readonly largeCard: Locator;
   readonly cartDrawer: Locator;
   readonly cartButton: Locator;
   readonly addToCartButton: Locator;
-  readonly loading: Locator;
+  readonly initialLoading: Locator;
+  readonly infiniteLoading: Locator;
   readonly error: Locator;
+  readonly infiniteScroll: Locator;
+  readonly test: Locator;
 
   constructor({ page }: { page: Page }) {
     this.page = page;
+    this.list = page.getByTestId('list');
     this.largeCard = page.getByTestId('large-card');
     this.cartDrawer = page.getByTestId('cart-drawer');
     this.cartButton = page.getByTestId('cart-button');
     this.addToCartButton = page.getByTestId('add-to-cart-button');
-    this.loading = page.getByTestId('list-loading');
+    this.initialLoading = page.getByTestId('list-initial-loading');
+    this.infiniteLoading = page.getByTestId('list-infinite-loading');
+    this.infiniteScroll = page.getByTestId('list').locator('..');
     this.error = page.getByTestId('list-error');
+  }
+
+  async getAllShownMessage() {
+    return this.page.waitForSelector('[data-testid="all-cats-shown"]');
   }
 
   async navigate() {
     await this.page.goto('/');
   }
 
-  async loadingList() {
-    await expect(this.loading).toBeVisible();
-    await expect(this.loading).toBeHidden();
+  async initialListLoading() {
+    await expect(this.initialLoading).toBeVisible();
+    await expect(this.initialLoading).toBeHidden();
+  }
+
+  async infiniteListLoading() {
+    await expect(this.infiniteLoading).toBeVisible();
   }
 
   async toBeVisibleAfterListFetched() {
@@ -46,18 +61,28 @@ export class ShopPage {
   async clickAddToCartButton() {
     await this.addToCartButton.first().click();
   }
+
+  async scrollList() {
+    await this.infiniteScroll.evaluate((el) => {
+      el.scrollTop = el.scrollHeight;
+    });
+  }
 }
 
 class CartDrawer {
   readonly drawer: Locator;
   readonly backdrop: Locator;
   readonly cartText: Locator;
+  readonly smallCard: Locator;
+  readonly removeFromCartButton: Locator;
   readonly clearAllCartButton: Locator;
 
   constructor({ page, drawer }: { page: Page; drawer: Locator }) {
     this.drawer = drawer;
-    this.cartText = page.getByText(/You selected \d+ cats/);
     this.backdrop = page.locator('.MuiModal-backdrop');
+    this.cartText = page.getByTestId('cart-text');
+    this.smallCard = page.getByTestId('small-card');
+    this.removeFromCartButton = page.getByTestId('cart-remove-item-button');
     this.clearAllCartButton = page.getByRole('button', {
       name: 'Clear the cart',
     });
@@ -65,6 +90,11 @@ class CartDrawer {
 
   async toBeVisible() {
     await expect(this.drawer).toBeVisible();
+  }
+
+  async clickRemoveFromCartButton() {
+    await this.removeFromCartButton.click();
+    await expect(this.smallCard.first()).toBeHidden();
   }
 
   async close() {

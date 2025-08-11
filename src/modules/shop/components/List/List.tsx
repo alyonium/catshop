@@ -46,7 +46,7 @@ const List = () => {
         container
         spacing={3}
         className={styles.displayWrapper}
-        data-testid="list-loading"
+        data-testid="list-initial-loading"
       >
         <CircularProgress color="primary" />
       </Grid>
@@ -79,6 +79,7 @@ const List = () => {
           size={12}
           spacing={3}
           className={styles.messagesWrapper}
+          data-testid="list-infinite-loading"
         >
           <CircularProgress color="primary" />
         </Grid>
@@ -90,11 +91,13 @@ const List = () => {
           spacing={3}
           className={styles.messagesWrapper}
         >
-          <Typography variant="body1">All cats shown</Typography>
+          <Typography variant="body1" data-testid="all-cats-shown">
+            All cats shown
+          </Typography>
         </Grid>
       }
     >
-      <Grid container size={12} spacing={3}>
+      <Grid container size={12} spacing={3} data-testid="list">
         {items.map((record: Cat) => (
           <Grid
             key={record.id}

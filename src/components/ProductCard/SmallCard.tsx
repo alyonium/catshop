@@ -50,6 +50,7 @@ const SmallCard = ({ cat }: CardProps) => {
           <IconButton
             onClick={() => dispatch(removeItem(cat))}
             style={{ position: 'absolute', top: '-5px', right: '-8px' }}
+            data-testid="cart-remove-item-button"
           >
             <ClearIcon fontSize="medium" />
           </IconButton>
